@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <style>
+        #personaje {
+            position: absolute;
+            background: url("ash2.png");
+            width: 68px;
+            height: 72px;
+            background-position-x: 0px;
+            background-position-y: 0px;
+            zoom: 80%;
+        }
+        
+        .boton {
+            float: left;
+            margin-left: 13px;
+            margin-top: 9px;
+            background: #ff5722;
+            padding: 5px;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        #fondo {
+            background: url("escenario.jpg");
+            width: 100%;
+            height: 610px;
+            background-repeat: no-repeat;
+            background-position-x: -216px;
+        }
+    </style>
+
+    <div class="boton" onclick="arriba()">Arriba</div>
+    <div class="boton" onclick="abajo()">Abajo</div>
+    <div class="boton" onclick="derecha()">Derecha</div>
+    <div class="boton" onclick="izquierda()">Izquierda</div>
+
+    <div id="fondo">
+        <div id="personaje">
+
+        </div>
+    </div>
+
+
+    <script>
+        //vemos que la grafica es de 272px por 288px lo que significa que debemos dividirlo en 4,
+        //ya que son 4 direccion arriba,abajo, derecha e izquierda y 4 animaciones por cada una
+        //o sea que debemos dividir 272 en 4 para saber el ancho y 288 en 4 para el alto
+        //si en la consola le voy aumentando a esos 0px el muñeco va corriendo hacia la derecha en x y en y de arriba a abajo
+        //ahora creamos los botones que generan estos eventos 
+        //ya tenemos los eventos con su respectiva animacion
+        //ahora almacenaremos la direccion hacia donde va el personaje 
+        //ahora crearemos la funcionalidad de mover el personaje por la pantalla
+        //nos falta agregar los pixeles a la direccion
+        //para aumentar velocidad ponemos / 4 al lado del 300 de animar personaje
+        //para mejorar el caminado el 8 * iterador lo cambiamos a 10
+
+        var personaje = document.getElementById("personaje")
+        var iterador = 0;
+        var direccionPersonaje = "abajo" //por defecto la pondremos hacia abajo 
+
+        var abajo = function() {
+            console.log('moviendose abajo')
+            direccionPersonaje = "abajo"
+            personaje.style.backgroundPositionY = '0px';
+        }
+
+        var arriba = function() {
+            console.log('moviendose arriba')
+            direccionPersonaje = "arriba"
+            personaje.style.backgroundPositionY = '72px';
+        }
+
+        var derecha = function() {
+            console.log('moviendose derecha')
+            direccionPersonaje = "derecha"
+            personaje.style.backgroundPositionY = '144px';
+        }
+
+        var izquierda = function() {
+            console.log('moviendose izquierda')
+            direccionPersonaje = "izquierda"
+            personaje.style.backgroundPositionY = '216px';
+        }
+
+        var animarPersonaje = function() {
+            setInterval(function() {
+
+                    personaje.style.backgroundPositionX = (68 * iterador) + 'px' //aca vamos a moverlo 68 espacios a la derecha cada 300ms
+                    iterador++ //aumentamos el iterador en 1
+                }, 300) //cada 300 milisegundos cambiara de posicion 
+        }
+
+        var iteradorMovimientoVertical = 0
+        var iteradorMovimientoHorizontal = 0
+
+        var moverPersonaje = function() { //no tenemos necesidad de recibir la direccion como parametro 
+            setInterval(function() {
+
+                    if (direccionPersonaje == "abajo") {
+                        personaje.style.top = (8 * iteradorMovimientoVertical) + 'px'
+                        iteradorMovimientoVertical++ //aca decimos que es aumentando o sea que pasara de 8 en 8 px
+                    }
+
+                    if (direccionPersonaje == "arriba") {
+                        personaje.style.top = (8 * iteradorMovimientoVertical) + 'px'
+                        iteradorMovimientoVertical-- //aca es al contrario será disminuyendo
+                    }
+                    if (direccionPersonaje == "derecha") {
+                        personaje.style.left = (8 * iteradorMovimientoHorizontal) + 'px'
+                        iteradorMovimientoHorizontal++ //aumentando o sea de izquierda a derecha 
+                    }
+                    if (direccionPersonaje == "izquierda") {
+                        personaje.style.left = (8 * iteradorMovimientoHorizontal) + 'px'
+                        iteradorMovimientoHorizontal-- //aumentando o sea de derecha a izquierda 
+                    }
+
+
+                }, 300) //cada 300 ms avanzara una cantidad de px en forma de left o top positivo o negativo
+
+        }
+
+        animarPersonaje()
+        moverPersonaje()
+    </script>
+
+</body>
+
+</html>
